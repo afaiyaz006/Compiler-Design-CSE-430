@@ -43,12 +43,12 @@ def remove_dups(datas:list)->list:
     return list(OrderedDict.fromkeys(datas))
 
 
-def lexical_analyzer(program:str)->dict[str:list[str]]:
+def lexical_analyzer(source_code:str)->dict[str:list[str]]:
     """
         A simple lexical analyzer function
         :input:
-            program:
-            A program in c.
+            source_code:
+            A source_code in c.
 
 
         :output:
@@ -67,22 +67,22 @@ def lexical_analyzer(program:str)->dict[str:list[str]]:
 
     # for removing any kind of comments
     comment_pattern=r"//.*\n"
-    program=re.split(comment_pattern,program)
-    program="".join(program)
+    source_code=re.split(comment_pattern,source_code)
+    source_code="".join(source_code)
 
 
 
 
     #for finding token types
-    identifiers=re.findall("[a-zA-Z]+[0-9]|[a-zA-Z]+",program)
-    constants=re.findall("[0-9]+",program)
+    identifiers=re.findall("[a-zA-Z]+[0-9]|[a-zA-Z]+",source_code)
+    constants=re.findall("[0-9]+",source_code)
 
 
-    punctuations_signs=re.findall("[;]|[:]|[,]",program)
-    arithmatic_operators=re.findall("[+]|[-]|[*]|[=]|[/]",program)
-    logical_operators=re.findall("<=|>=|[<]|[>]|==|!=",program)
-    parentheses=re.findall("[{]|[}]|[(]|[)]|[[]|[]]",program)
-    keywords=re.findall("|".join(key_words),program)
+    punctuations_signs=re.findall("[;]|[:]|[,]",source_code)
+    arithmatic_operators=re.findall("[+]|[-]|[*]|[=]|[/]",source_code)
+    logical_operators=re.findall("<=|>=|[<]|[>]|==|!=",source_code)
+    parentheses=re.findall("[{]|[}]|[(]|[)]|[[]|[]]",source_code)
+    keywords=re.findall("|".join(key_words),source_code)
    
     #removing duplicates
     identifiers=remove_dups(identifiers)
@@ -112,18 +112,18 @@ def lexical_analyzer(program:str)->dict[str:list[str]]:
     }
    
 if __name__=='__main__':
-    program=""""""
+    source_code=""""""
     while True:
         try:
             line=input()
             if line=="EOF":
                 break
-            program+=line+"\n"
+            source_code+=line+"\n"
         except EOFError:
             break    
 
 
-    lexemes=lexical_analyzer(program)
+    lexemes=lexical_analyzer(source_code)
 
 
     print(f"Keywords({len(lexemes['keywords'])}): {' , '.join(lexemes['keywords'])}")
