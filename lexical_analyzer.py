@@ -74,16 +74,16 @@ def lexical_analyzer(source_code:str)->dict[str:list[str]]:
 
 
     #for finding token types
-    identifiers=re.findall("[a-zA-Z]+[0-9]|[a-zA-Z]+",source_code)
+    identifiers=re.findall("[a-zA-Z]+[0-9]*|[a-zA-Z]+",source_code)
     constants=re.findall("[0-9]+",source_code)
 
 
     punctuations_signs=re.findall("[;]|[:]|[,]",source_code)
     arithmatic_operators=re.findall("[+]|[-]|[*]|[=]|[/]",source_code)
     logical_operators=re.findall("<=|>=|[<]|[>]|==|!=",source_code)
-    parentheses=re.findall("[{]|[}]|[(]|[)]|[[]|[]]",source_code)
-    keywords=re.findall("|".join(key_words),source_code)
-   
+    parentheses=re.findall("[{]|[}]|[(]|[)]",source_code)
+    keywords=re.findall(r"\b|".join(key_words),source_code)
+    
     #removing duplicates
     identifiers=remove_dups(identifiers)
     punctuations_signs=remove_dups(punctuations_signs)
