@@ -56,7 +56,6 @@ def lexical_analyzer(program:str)->dict[str:list[str]]:
             "arithmatic_operators":arithmatic_operators,
             "constants":constants,
             "punctuations_signs":punctuations_signs,
-            "arithmatic_operators":arithmatic_operators,
             "logical_operators":logical_operators,
             "parenthesis":parenthesis,
             
