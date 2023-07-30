@@ -42,21 +42,20 @@ def remove_dups(datas:list)->list:
     """
     return list(OrderedDict.fromkeys(datas))
 
-def lexical_analyzer(program:str)->dict[str:list[str]]:
+def lexical_analyzer(source_code:str)->dict[str:list[str]]:
     """
         A simple lexical analyzer function
         :input:
-            program:
-            A program in c.
+            source_code:
+            Source code of the program.
 
         :output:
-            dictionary containing tokens of various types.
+            Dictionary containing tokens of various types.
             "keywords":keywords,
             "identifiers":identifiers,
             "arithmatic_operators":arithmatic_operators,
             "constants":constants,
             "punctuations_signs":punctuations_signs,
-            "arithmatic_operators":arithmatic_operators,
             "logical_operators":logical_operators,
             "parenthesis":parenthesis,
             
@@ -64,17 +63,16 @@ def lexical_analyzer(program:str)->dict[str:list[str]]:
 
     # for removing any kind of comments
     comment_pattern=r"//.*\n"
-    program=re.split(comment_pattern,program)
-    program="".join(program)
+    source_code=re.split(comment_pattern,source_code)
+    source_code="".join(source_code)
 
 
     #for finding token types
     identifiers=re.findall("[a-zA-Z]+[0-9]|[a-zA-Z]+",program)
     constants=re.findall("[0-9]+",program)
-
-    punctuations_signs=re.findall("[;]|[:]|[,]",program)
+    punctuations_signs=re.findall("[;]|[-]|[,]",program)
     arithmatic_operators=re.findall("[+]|[-]|[*]|[=]|[/]",program)
-    logical_operators=re.findall("<=|>=|[<]|[>]|==|!=",program)
+    logical_operators=re.findall("[>]|>=|<|<=|==|!=",program)
     parenthesis=re.findall("[{]|[}]|[(]|[)]|[{]|[}]",program)
     keywords=re.findall("|".join(key_words),program)
     
@@ -98,23 +96,22 @@ def lexical_analyzer(program:str)->dict[str:list[str]]:
         "arithmatic_operators":arithmatic_operators,
         "constants":constants,
         "punctuations_signs":punctuations_signs,
-        "arithmatic_operators":arithmatic_operators,
         "logical_operators":logical_operators,
         "parenthesis":parenthesis,
     }
     
 if __name__=='__main__':
-    program=""""""
+    source_code=""""""
     while True:
         try:
             line=input()
             if line=="EOF":
                 break
-            program+=line+"\n"
+            source_code+=line+"\n"
         except EOFError:
             break    
 
-    lexemes=lexical_analyzer(program)
+    lexemes=lexical_analyzer(source_code)
 
     print(f"Keywords({len(lexemes['keywords'])}): {' , '.join(lexemes['keywords'])}")
     print(f"Identifiers({len(lexemes['identifiers'])}): {' , '.join(lexemes['identifiers'])}")
