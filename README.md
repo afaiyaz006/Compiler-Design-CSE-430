@@ -1,7 +1,7 @@
 # Compiler-Design-CSE-430
 Codes for Compiler Design Lab.
 
-Lexical analyzer
+## Lexical analyzer
 ```
 python lexical.py <program.c
 ```
