@@ -31,7 +31,7 @@ def remove_left_recursion(grammer:str)->dict[str:str]:
                 elif rule[0]==Ai:
                     Ai_prime=f"{Ai}'"
                     if Ai_prime not in rules:
-                        rules[Ai_prime]=[rule[1:]+Ai_prime]
+                        rules[Ai_prime]=[rule[1:]+Ai_prime,'ε']
                     else:
                         rules[Ai_prime].append(rule[1:]+Ai_prime)
             rules[Ai]=new_production
@@ -39,11 +39,17 @@ def remove_left_recursion(grammer:str)->dict[str:str]:
 if __name__=='__main__':
     grammers="""
 ###
-E->E+T|T,
-T->ε
+E->E+T|T
 ###
 T->T*F|F,
 F->ε
+###
+S->01A,
+A->0S1SA|ε
+###
+S->A,
+A->Ad|Ae|aB|ac,
+B->bBc|f
 ###
 S->Aa|b,
 A->Ac|Aad|bd|ε
@@ -53,11 +59,14 @@ T->T*F|F,
 F->(E)|id
 ###
 S->Af|b,
+A->Ac|Sd|Be,
+B->Ag|Sh|k
+###
+S->Af|b,
 A->Ac|Sd|Be|C,
 B->Ag|Sh|k,
 C->BkmA|AS|j
 """
-#Examples taken from:#https://www.csd.uwo.ca/~mmorenom/CS447/Lectures/Syntax.html/node8.html
 
     grammers=grammers.replace('\n','')
     grammers=grammers.split("###")
