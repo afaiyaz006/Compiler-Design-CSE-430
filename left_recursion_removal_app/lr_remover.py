@@ -1,3 +1,4 @@
+import streamlit as st
 def remove_left_recursion(grammer:str)->dict[str:str]:
     """
     Removes left recursion from grammer.
@@ -25,26 +26,20 @@ def remove_left_recursion(grammer:str)->dict[str:str]:
     for i in range(0,len(nonterminals)):
         Ai=nonterminals[i]
         for j in range(0,i):
-            '''
-            replacing production in the format Ai->Ajγk
-            with  Ai->δ1γk|δ2γk|δ3γk....|δkγk
-            '''
             Aj=nonterminals[j]
             new_production=[]
-            for production in rules[Ai]: #iterating  the productions of Ai to find γk
+            for production in rules[Ai]:
                 if production[0]==Aj:
-                    for prod in rules[Aj]: # iterating the productions of Aj to find δ1,δ2,.....δk
-                        new_production.append(prod+production[1:]) #Ai->δ1γk|δ2γk|δ3γk....|δkγk
+                    for prod in rules[Aj]:
+                        new_production.append(prod+production[1:])
                 else:
-                    new_production.append(production) # no change i.e: Ai-> whatever it was before
+                    new_production.append(production) 
             
-            if len(new_production)>0: # paranoia
+            if len(new_production)>0: 
                 rules[Ai]=new_production
 
         new_production=[]
-        '''
-        removing immediate left recursion
-        '''
+
         immediate=False
         for rule in rules[Ai]:
             if rule[0]==Ai:
@@ -61,9 +56,30 @@ def remove_left_recursion(grammer:str)->dict[str:str]:
                     else:
                         rules[Ai_prime].append(rule[1:]+Ai_prime)
             rules[Ai]=new_production
-    return rules     
- 
+    return rules    
+
+
+
+def lr_remover(grammers:str)->str:
+
+    grammers=grammers.replace('\n','')
+    grammers=grammers.split("###")
+    output=""
+    for grammer in grammers:
+        if grammer!='':
+            
+            grammer_without_left_recursion=remove_left_recursion(grammer)
+            output+="```\n"
+            for nonterminal,productions in grammer_without_left_recursion.items():
+                output+=f"{nonterminal}->{'|'.join(productions)}\n"
+            output+="```\n"
+    return output
+
 if __name__=='__main__':
+    st.title('Left Recursion Remover')
+
+
+with st.form(key="Input Grammer"):
     grammers="""
 ###
 E->E+T|T
@@ -71,49 +87,32 @@ E->E+T|T
 T->T*F|F,
 F->ε
 ###
-S->01A,
-A->0S1SA|ε
-###
-S->A,
-A->Ad|Ae|aB|ac,
-B->bBc|f
-###
-S->Aa|b,
-A->Ac|Aad|bd|ε
-###
-E->E+T|T,
-T->T*F|F,
-F->(E)|id
-###
-S->Af|b,
-A->Ac|Sd|Be,
-B->Ag|Sh|k
-###
 S->Af|b,
 A->Ac|Sd|Be|C,
 B->Ag|Sh|k,
 C->BkmA|AS|j
-###
-Q->QED|q,
-E->e,
-D->NFA|d,
-N->DFA|n,
-F->f,
-A->a
 """
+    #grammers.replace('###','\n')    
+    text_input=st.text_area(label="Enter Grammer",value=grammers)
+    submit_button=st.form_submit_button(label="Remove Left Recursion")
 
-    grammers=grammers.replace('\n','')
-    grammers=grammers.split("###")
-    
-    for grammer in grammers:
-        if grammer!='':
-            print("---Grammer with left recursion---")
-            for production in grammer.split(','):
-                print(production)
-            print("---------------------------------")
-            
-            print("---Grammer without left recursion---")
-            grammer_without_left_recursion=remove_left_recursion(grammer)
-            for nonterminal,productions in grammer_without_left_recursion.items():
-                print(f"{nonterminal}->{'|'.join(productions)}")
-            print("------------------------------------")
+if submit_button:
+    text_output=lr_remover(text_input)
+    st.write(text_output)
+st.header("Instructions: ")
+st.write("""
+```
+Input format:
+###\n
+S->A,\n
+A->Ad|Ae|aB|ac,\n
+B->bBc|f\n
+###\n
+A->BC,\n
+B->ε,\n
+###\n
+another grammer
+Note: Must use comma for new line in grammer
+```
+             """)
+st.write("\n```\nε\n```\n")
