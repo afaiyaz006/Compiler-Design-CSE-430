@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(page_title="Left Recursion Removal by fuzzy")
 def remove_left_recursion(grammer:str)->dict[str:str]:
     """
     Removes left recursion from grammer.
@@ -76,18 +77,11 @@ def lr_remover(grammers:str)->str:
     return output
 
 if __name__=='__main__':
-    st.title('Left Recursion Remover')
-
+    st.title(f'Left Recursion Remover :tea: :disappointed_relieved:')
+    
 
 with st.form(key="Input Grammer"):
-    grammers="""
-###
-E->E+T|T
-###
-T->T*F|F,
-F->ε
-###
-S->Af|b,
+    grammers="""S->Af|b,
 A->Ac|Sd|Be|C,
 B->Ag|Sh|k,
 C->BkmA|AS|j
