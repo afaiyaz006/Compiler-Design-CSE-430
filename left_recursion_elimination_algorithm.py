@@ -20,6 +20,7 @@ def remove_left_recursion(grammer:str)->dict[str:str]:
     rules=grammer.split(',')
     rules=[rule.split('->') for rule in rules]
     rules={k:v.split('|') for k,v in rules}
+
     nonterminals=list(rules.keys())
     #print(nonterminals)
     for i in range(0,len(nonterminals)):
@@ -57,10 +58,11 @@ def remove_left_recursion(grammer:str)->dict[str:str]:
                 elif rule[0]==Ai:
                     Ai_prime=f"{Ai}'"
                     if Ai_prime not in rules:
-                        rules[Ai_prime]=[rule[1:]+Ai_prime,'ε']
+                        rules[Ai_prime]=[rule[1:]+Ai_prime,'∈']
                     else:
                         rules[Ai_prime].append(rule[1:]+Ai_prime)
             rules[Ai]=new_production
+
     return rules     
  
 if __name__=='__main__':
@@ -69,17 +71,17 @@ if __name__=='__main__':
 E->E+T|T
 ###
 T->T*F|F,
-F->ε
+F->∈
 ###
 S->01A,
-A->0S1SA|ε
+A->0S1SA|∈
 ###
 S->A,
 A->Ad|Ae|aB|ac,
 B->bBc|f
 ###
 S->Aa|b,
-A->Ac|Aad|bd|ε
+A->Ac|Aad|bd|∈
 ###
 E->E+T|T,
 T->T*F|F,

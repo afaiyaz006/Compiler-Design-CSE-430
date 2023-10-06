@@ -15,3 +15,10 @@ and filters out unnecessary elements like whitespace and comments to prepare the
 python symbol_table.py
 ```
 A symbol table is a data structure used in computer science and compiler design to store and manage information about symbols (identifiers) in a program. Symbols typically refer to variables, constants, functions, classes, or any other named entities in the source code of a programming language.
+
+### Left recursion removal
+
+```
+python left_recursion_elimination_algorithm.py
+```
+A left recursion removal algorithm is a technique used in formal grammar processing, particularly in parsing and compiler construction. Its purpose is to eliminate left recursion from a set of production rules, as left recursion can lead to infinite loops in parsing.
