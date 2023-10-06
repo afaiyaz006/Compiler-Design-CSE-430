@@ -22,3 +22,10 @@ A symbol table is a data structure used in computer science and compiler design 
 python left_recursion_elimination_algorithm.py
 ```
 A left recursion removal algorithm is a technique used in formal grammar processing, particularly in parsing and compiler construction. Its purpose is to eliminate left recursion from a set of production rules, as left recursion can lead to infinite loops in parsing.
+
+
+### Find First follow
+
+```
+python first_follow.py
+```
